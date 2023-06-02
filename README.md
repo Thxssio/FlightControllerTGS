@@ -18,3 +18,10 @@ Install board:
 https://www.pjrc.com/teensy/package_teensy_index.json
 ```
 
+- MPU6050
+- BMP2080
+- Arduino
+- Teensy
+- C/CPP/Python
+- ESP8266
+
