@@ -21,6 +21,6 @@
   "frameworks": "arduino",
   "platforms": "teensy",
   "examples": [
-    "Firmware/*/*.ino"
+    "Examples/*/*.ino"
   ]
 }
