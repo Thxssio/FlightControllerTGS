@@ -3,7 +3,12 @@
 
 
 
-***Flight Controller Developing by @thxssio***
+***Flight Controller Developing by @thxssio***  
+
+
+<p align="center">
+<a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/thxssio/FlightControllerTGS.svg"></a>
+</p>
 
 
 
