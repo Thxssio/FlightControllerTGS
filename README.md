@@ -3,7 +3,7 @@
 
 
 
-***Flight Controller Developing by @thxssio***  
+<p align="center"><b><i>Flight Controller Developing by @thxssio</i></b></p>
 
 
 <p align="center">
