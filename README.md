@@ -12,3 +12,9 @@
 
 
 
+Install board:
+
+```
+https://www.pjrc.com/teensy/package_teensy_index.json
+```
+
