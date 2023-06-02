@@ -1,4 +1,4 @@
-<h1 align="center"> FlightControllerTGS  <img src="assets/logo/icon.png" height="auto" width="80"></img></h1>
+<h1 align="center"><img src="assets/logo/capa2.png" height="auto" width="300"></img></h1>
 
 
 
