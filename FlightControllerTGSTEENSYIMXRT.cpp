@@ -3,7 +3,7 @@
 #if defined(__IMXRT1062__)
 
 #include "Arduino.h"
-#include "FlightControllerTGSIMXRT.h"
+#include "FlightControllerTGSTEENSYIMXRT.h"
 
 
 #ifdef DEBUG_IO_PINS
@@ -39,26 +39,26 @@
 
 #define CTRL_SET TMR_CTRL_CM(1) | TMR_CTRL_PCS(8 + 2) | TMR_CTRL_LENGTH |TMR_CTRL_OUTMODE(2)
 #define CTRL_CLEAR TMR_CTRL_CM(1) | TMR_CTRL_PCS(8 + 2) | TMR_CTRL_LENGTH |TMR_CTRL_OUTMODE(1)
-#define FlightControllerTGS_MAXCHANNELS 16
+#define FlightControllerTGSTEENSY_MAXCHANNELS 16
 
-FlightControllerTGSBase * FlightControllerTGSBase::list[10];
+FlightControllerTGSTEENSYBase * FlightControllerTGSTEENSYBase::list[10];
 
-const FlightControllerTGSBase::TMR_Hardware_t FlightControllerTGSBase::hardware[] = {
-	{ 6,1, &IMXRT_TMR4, &CCM_CCGR6, CCM_CCGR6_QTIMER4(CCM_CCGR_ON), IRQ_QTIMER4, &FlightControllerTGSInput::isrTimer4, nullptr, 0},
-	{ 9,2, &IMXRT_TMR4, &CCM_CCGR6, CCM_CCGR6_QTIMER4(CCM_CCGR_ON), IRQ_QTIMER4, &FlightControllerTGSInput::isrTimer4, nullptr, 0},
-    {10,0, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSInput::isrTimer1, nullptr, 0},
-    {11,2, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSInput::isrTimer1, nullptr, 0},
-    {12,1, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSInput::isrTimer1, nullptr, 0},
-    {13,0, &IMXRT_TMR2, &CCM_CCGR6, CCM_CCGR6_QTIMER2(CCM_CCGR_ON), IRQ_QTIMER2, &FlightControllerTGSInput::isrTimer2, &IOMUXC_QTIMER2_TIMER0_SELECT_INPUT, 1 },
-    {14,2, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSInput::isrTimer3, &IOMUXC_QTIMER3_TIMER2_SELECT_INPUT, 1 },
-    {15,3, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSInput::isrTimer3, &IOMUXC_QTIMER3_TIMER3_SELECT_INPUT, 1 },
-    {18,1, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSInput::isrTimer3, &IOMUXC_QTIMER3_TIMER1_SELECT_INPUT, 0 },
-    {19,0, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSInput::isrTimer3, &IOMUXC_QTIMER3_TIMER0_SELECT_INPUT, 1 }
+const FlightControllerTGSTEENSYBase::TMR_Hardware_t FlightControllerTGSTEENSYBase::hardware[] = {
+	{ 6,1, &IMXRT_TMR4, &CCM_CCGR6, CCM_CCGR6_QTIMER4(CCM_CCGR_ON), IRQ_QTIMER4, &FlightControllerTGSTEENSYInput::isrTimer4, nullptr, 0},
+	{ 9,2, &IMXRT_TMR4, &CCM_CCGR6, CCM_CCGR6_QTIMER4(CCM_CCGR_ON), IRQ_QTIMER4, &FlightControllerTGSTEENSYInput::isrTimer4, nullptr, 0},
+    {10,0, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSTEENSYInput::isrTimer1, nullptr, 0},
+    {11,2, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSTEENSYInput::isrTimer1, nullptr, 0},
+    {12,1, &IMXRT_TMR1, &CCM_CCGR6, CCM_CCGR6_QTIMER1(CCM_CCGR_ON), IRQ_QTIMER1, &FlightControllerTGSTEENSYInput::isrTimer1, nullptr, 0},
+    {13,0, &IMXRT_TMR2, &CCM_CCGR6, CCM_CCGR6_QTIMER2(CCM_CCGR_ON), IRQ_QTIMER2, &FlightControllerTGSTEENSYInput::isrTimer2, &IOMUXC_QTIMER2_TIMER0_SELECT_INPUT, 1 },
+    {14,2, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSTEENSYInput::isrTimer3, &IOMUXC_QTIMER3_TIMER2_SELECT_INPUT, 1 },
+    {15,3, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSTEENSYInput::isrTimer3, &IOMUXC_QTIMER3_TIMER3_SELECT_INPUT, 1 },
+    {18,1, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSTEENSYInput::isrTimer3, &IOMUXC_QTIMER3_TIMER1_SELECT_INPUT, 0 },
+    {19,0, &IMXRT_TMR3, &CCM_CCGR6, CCM_CCGR6_QTIMER3(CCM_CCGR_ON), IRQ_QTIMER3, &FlightControllerTGSTEENSYInput::isrTimer3, &IOMUXC_QTIMER3_TIMER0_SELECT_INPUT, 1 }
 };
 
-const uint8_t FlightControllerTGSBase::_hardware_count =  (sizeof(FlightControllerTGSBase::hardware)/sizeof(FlightControllerTGSBase::hardware[0]));
+const uint8_t FlightControllerTGSTEENSYBase::_hardware_count =  (sizeof(FlightControllerTGSTEENSYBase::hardware)/sizeof(FlightControllerTGSTEENSYBase::hardware[0]));
 
-inline void FlightControllerTGSBase::checkAndProcessTimerCHInPending(uint8_t index, volatile IMXRT_TMR_CH_t *tmr_ch) {
+inline void FlightControllerTGSTEENSYBase::checkAndProcessTimerCHInPending(uint8_t index, volatile IMXRT_TMR_CH_t *tmr_ch) {
  	if (((tmr_ch->CSCTRL & (TMR_CSCTRL_TCF1 | TMR_CSCTRL_TCF1EN)) == (TMR_CSCTRL_TCF1 | TMR_CSCTRL_TCF1EN)) 
 			|| ((tmr_ch->SCTRL & (TMR_SCTRL_IEF | TMR_SCTRL_IEFIE)) == (TMR_SCTRL_IEF | TMR_SCTRL_IEFIE))) {
 
@@ -73,7 +73,7 @@ inline void FlightControllerTGSBase::checkAndProcessTimerCHInPending(uint8_t ind
 }
 
 
-void FlightControllerTGSBase::isrTimer1()
+void FlightControllerTGSTEENSYBase::isrTimer1()
 {
 	DBGdigitalWriteFast(2, HIGH);
 	checkAndProcessTimerCHInPending(2, &IMXRT_TMR1.CH[0]);
@@ -83,7 +83,7 @@ void FlightControllerTGSBase::isrTimer1()
 	DBGdigitalWriteFast(2, LOW);
 }
 
-void FlightControllerTGSBase::isrTimer2()
+void FlightControllerTGSTEENSYBase::isrTimer2()
 {
 	DBGdigitalWriteFast(2, HIGH);
 	checkAndProcessTimerCHInPending(5, &IMXRT_TMR2.CH[0]);
@@ -92,7 +92,7 @@ void FlightControllerTGSBase::isrTimer2()
 
 }
 
-void FlightControllerTGSBase::isrTimer3()
+void FlightControllerTGSTEENSYBase::isrTimer3()
 {
 	DBGdigitalWriteFast(2, HIGH);
 	checkAndProcessTimerCHInPending(6, &IMXRT_TMR3.CH[2]);
@@ -102,7 +102,7 @@ void FlightControllerTGSBase::isrTimer3()
 	asm volatile ("dsb"); 
 	DBGdigitalWriteFast(2, LOW);
 }
-void FlightControllerTGSBase::isrTimer4()
+void FlightControllerTGSTEENSYBase::isrTimer4()
 {
 	DBGdigitalWriteFast(2, HIGH);
 	checkAndProcessTimerCHInPending(0, &IMXRT_TMR4.CH[1]);
@@ -111,18 +111,18 @@ void FlightControllerTGSBase::isrTimer4()
 	DBGdigitalWriteFast(2, LOW);
 }
 
-FlightControllerTGSOutput::FlightControllerTGSOutput(void)
+FlightControllerTGSTEENSYOutput::FlightControllerTGSTEENSYOutput(void)
 {
 	pulse_width[0] = TX_MINIMUM_FRAME_CLOCKS;
-	for (int i=1; i <= FlightControllerTGS_MAXCHANNELS; i++) {
+	for (int i=1; i <= FlightControllerTGSTEENSY_MAXCHANNELS; i++) {
 		pulse_width[i] = TX_DEFAULT_SIGNAL_CLOCKS;
 	}
 }
 
-FlightControllerTGSOutput::FlightControllerTGSOutput(int polarity)
+FlightControllerTGSTEENSYOutput::FlightControllerTGSTEENSYOutput(int polarity)
 {
 	pulse_width[0] = TX_MINIMUM_FRAME_CLOCKS;
-	for (int i=1; i <= FlightControllerTGS_MAXCHANNELS; i++) {
+	for (int i=1; i <= FlightControllerTGSTEENSY_MAXCHANNELS; i++) {
 		pulse_width[i] = TX_DEFAULT_SIGNAL_CLOCKS;
 	}
 	if (polarity == FALLING) {
@@ -132,12 +132,12 @@ FlightControllerTGSOutput::FlightControllerTGSOutput(int polarity)
 	}
 }
 
-bool FlightControllerTGSOutput::begin(uint8_t txPin)
+bool FlightControllerTGSTEENSYOutput::begin(uint8_t txPin)
 {
 	return begin(txPin, 255);
 }
 
-bool FlightControllerTGSOutput::begin(uint8_t txPin, uint32_t _framePin)
+bool FlightControllerTGSTEENSYOutput::begin(uint8_t txPin, uint32_t _framePin)
 {
 #ifdef DEBUG_OUTPUT
 	Serial.println(txPin);
@@ -190,11 +190,11 @@ bool FlightControllerTGSOutput::begin(uint8_t txPin, uint32_t _framePin)
 	return true;
 }
 
-bool FlightControllerTGSOutput::write(uint8_t channel, float microseconds)
+bool FlightControllerTGSTEENSYOutput::write(uint8_t channel, float microseconds)
 {
   uint32_t i, sum, space, clocks, num_channels;
 
-  if (channel < 1 || channel > FlightControllerTGS_MAXCHANNELS) return false;
+  if (channel < 1 || channel > FlightControllerTGSTEENSY_MAXCHANNELS) return false;
   if (microseconds < TX_MINIMUM_SIGNAL || microseconds > TX_MAXIMUM_SIGNAL) return false;
   clocks = microseconds * CLOCKS_PER_MICROSECOND;
   num_channels = total_channels;
@@ -220,7 +220,7 @@ bool FlightControllerTGSOutput::write(uint8_t channel, float microseconds)
 }
 
 
-void FlightControllerTGSOutput::isr() 
+void FlightControllerTGSTEENSYOutput::isr() 
 {
 	DBGdigitalWriteFast(3, HIGH);
   uint8_t channel = hardware[idx_channel].channel;
@@ -279,15 +279,15 @@ void FlightControllerTGSOutput::isr()
 
 
 //-----------------------------------------------------------------------------
-// FlightControllerTGSOutput 
+// FlightControllerTGSTEENSYOutput 
 //-----------------------------------------------------------------------------
 
-FlightControllerTGSInput::FlightControllerTGSInput(void)
+FlightControllerTGSTEENSYInput::FlightControllerTGSTEENSYInput(void)
 {
 	outPolarity = 1;
 }
 
-FlightControllerTGSInput::FlightControllerTGSInput(int polarity)
+FlightControllerTGSTEENSYInput::FlightControllerTGSTEENSYInput(int polarity)
 {
 	if (polarity == FALLING) {
 		outPolarity = 0;
@@ -296,7 +296,7 @@ FlightControllerTGSInput::FlightControllerTGSInput(int polarity)
 	}
 }
 
-bool FlightControllerTGSInput::begin(uint8_t rxPin)
+bool FlightControllerTGSTEENSYInput::begin(uint8_t rxPin)
 {
 	for (idx_channel = 0; idx_channel < _hardware_count; idx_channel++) {
 		if (hardware[idx_channel].pin == rxPin) break; 
@@ -342,7 +342,7 @@ bool FlightControllerTGSInput::begin(uint8_t rxPin)
 	list[idx_channel] = this;
 	
 #ifdef DEBUG_OUTPUT
-	Serial.printf("FlightControllerTGSInput::begin pin:%d idx: %d CH:%d SC:%x CSC:%x\n", rxPin, idx_channel, channel, tmr_ch->SCTRL, tmr_ch->CSCTRL); Serial.flush();
+	Serial.printf("FlightControllerTGSTEENSYInput::begin pin:%d idx: %d CH:%d SC:%x CSC:%x\n", rxPin, idx_channel, channel, tmr_ch->SCTRL, tmr_ch->CSCTRL); Serial.flush();
 	//set Mux for Tx Pin - all timers on ALT1
 	Serial.printf("Select Input Regster: %x %d\n", (uint32_t)hardware[idx_channel].select_input_register, hardware[idx_channel].select_val); Serial.flush();
 #endif
@@ -371,7 +371,7 @@ bool FlightControllerTGSInput::begin(uint8_t rxPin)
 	return true;
 }
 
-int FlightControllerTGSInput::available(void)
+int FlightControllerTGSTEENSYInput::available(void)
 {
 	uint32_t total;
 	bool flag;
@@ -384,7 +384,7 @@ int FlightControllerTGSInput::available(void)
 	return -1;
 }
 
-float FlightControllerTGSInput::read(uint8_t channel)
+float FlightControllerTGSTEENSYInput::read(uint8_t channel)
 {
 	uint32_t total, index, value=0;
 
@@ -399,7 +399,7 @@ float FlightControllerTGSInput::read(uint8_t channel)
 }
 
 
-void FlightControllerTGSInput::isr() {  // capture and compare
+void FlightControllerTGSTEENSYInput::isr() {  // capture and compare
   DBGdigitalWriteFast(4, HIGH);
   uint8_t channel = hardware[idx_channel].channel;
   volatile IMXRT_TMR_CH_t *tmr_ch = &hardware[idx_channel].tmr->CH[channel];
@@ -439,7 +439,7 @@ void FlightControllerTGSInput::isr() {  // capture and compare
       }
       write_index = 0;
     } else {
-      if (write_index < FlightControllerTGS_MAXCHANNELS) {
+      if (write_index < FlightControllerTGSTEENSY_MAXCHANNELS) {
         pulse_width[write_index++] = count;
       }
     }

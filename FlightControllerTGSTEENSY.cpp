@@ -2,7 +2,7 @@
 #if defined(__arm__) && defined(TEENSYDUINO) && (defined(__MKL26Z64__) || defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__))
 
 
-#include "FlightControllerTGS.h"
+#include "FlightControllerTGSTEENSY.h"
 
 
 // Timing parameters, in microseconds.
@@ -75,23 +75,23 @@
 #define FRAME_PIN_CLEAR()            *(framePinReg + 8) = framePinMask
 #endif
 
-uint8_t FlightControllerTGSOutput::channelmask = 0;
-FlightControllerTGSOutput * FlightControllerTGSOutput::list[8];
+uint8_t FlightControllerTGSTEENSYOutput::channelmask = 0;
+FlightControllerTGSTEENSYOutput * FlightControllerTGSTEENSYOutput::list[8];
 
-FlightControllerTGSOutput::FlightControllerTGSOutput(void)
+FlightControllerTGSTEENSYOutput::FlightControllerTGSTEENSYOutput(void)
 {
 	pulse_width[0] = TX_MINIMUM_FRAME_CLOCKS;
-	for (int i=1; i <= FlightControllerTGS_MAXCHANNELS; i++) {
+	for (int i=1; i <= FlightControllerTGSTEENSY_MAXCHANNELS; i++) {
 		pulse_width[i] = TX_DEFAULT_SIGNAL_CLOCKS;
 	}
 	cscSet = 0b01011100;
 	cscClear = 0b01011000;
 }
 
-FlightControllerTGSOutput::FlightControllerTGSOutput(int polarity)
+FlightControllerTGSTEENSYOutput::FlightControllerTGSTEENSYOutput(int polarity)
 {
 	pulse_width[0] = TX_MINIMUM_FRAME_CLOCKS;
-	for (int i=1; i <= FlightControllerTGS_MAXCHANNELS; i++) {
+	for (int i=1; i <= FlightControllerTGSTEENSY_MAXCHANNELS; i++) {
 		pulse_width[i] = TX_DEFAULT_SIGNAL_CLOCKS;
 	}
 	if (polarity == FALLING) {
@@ -103,12 +103,12 @@ FlightControllerTGSOutput::FlightControllerTGSOutput(int polarity)
 	}
 }
 
-bool FlightControllerTGSOutput::begin(uint8_t txPin)
+bool FlightControllerTGSTEENSYOutput::begin(uint8_t txPin)
 {
 	return begin(txPin, 255);
 }
 
-bool FlightControllerTGSOutput::begin(uint8_t txPin, uint8_t framePin)
+bool FlightControllerTGSTEENSYOutput::begin(uint8_t txPin, uint8_t framePin)
 {
 	uint32_t channel;
 	volatile void *reg;
@@ -158,11 +158,11 @@ bool FlightControllerTGSOutput::begin(uint8_t txPin, uint8_t framePin)
 	return true;
 }
 
-bool FlightControllerTGSOutput::write(uint8_t channel, float microseconds)
+bool FlightControllerTGSTEENSYOutput::write(uint8_t channel, float microseconds)
 {
 	uint32_t i, sum, space, clocks, num_channels;
 
-	if (channel < 1 || channel > FlightControllerTGS_MAXCHANNELS) return false;
+	if (channel < 1 || channel > FlightControllerTGSTEENSY_MAXCHANNELS) return false;
 	if (microseconds < TX_MINIMUM_SIGNAL || microseconds > TX_MAXIMUM_SIGNAL) return false;
 	clocks = microseconds * CLOCKS_PER_MICROSECOND;
 	num_channels = total_channels;
@@ -187,7 +187,7 @@ bool FlightControllerTGSOutput::write(uint8_t channel, float microseconds)
 	return true;
 }
 
-void FlightControllerTGSOutput::isr(void)
+void FlightControllerTGSTEENSYOutput::isr(void)
 {
 	#if defined(KINETISK)
 	FTM0_MODE = 0;
@@ -245,55 +245,55 @@ void ftm0_isr(void)
 		#elif defined(KINETISL)
 		FTM0_SC = FTM0_SC_VALUE | FTM_SC_TOF;
 		#endif
-		FlightControllerTGSInput::overflow_count++;
-		FlightControllerTGSInput::overflow_inc = true;
+		FlightControllerTGSTEENSYInput::overflow_count++;
+		FlightControllerTGSTEENSYInput::overflow_inc = true;
 	}
 	// TODO: this could be efficient by reading FTM0_STATUS
-	uint8_t maskin = FlightControllerTGSInput::channelmask;
-	if ((maskin & 0x01) && (FTM0_C0SC & 0x80)) FlightControllerTGSInput::list[0]->isr();
-	if ((maskin & 0x02) && (FTM0_C1SC & 0x80)) FlightControllerTGSInput::list[1]->isr();
-	if ((maskin & 0x04) && (FTM0_C2SC & 0x80)) FlightControllerTGSInput::list[2]->isr();
-	if ((maskin & 0x08) && (FTM0_C3SC & 0x80)) FlightControllerTGSInput::list[3]->isr();
-	if ((maskin & 0x10) && (FTM0_C4SC & 0x80)) FlightControllerTGSInput::list[4]->isr();
-	if ((maskin & 0x20) && (FTM0_C5SC & 0x80)) FlightControllerTGSInput::list[5]->isr();
+	uint8_t maskin = FlightControllerTGSTEENSYInput::channelmask;
+	if ((maskin & 0x01) && (FTM0_C0SC & 0x80)) FlightControllerTGSTEENSYInput::list[0]->isr();
+	if ((maskin & 0x02) && (FTM0_C1SC & 0x80)) FlightControllerTGSTEENSYInput::list[1]->isr();
+	if ((maskin & 0x04) && (FTM0_C2SC & 0x80)) FlightControllerTGSTEENSYInput::list[2]->isr();
+	if ((maskin & 0x08) && (FTM0_C3SC & 0x80)) FlightControllerTGSTEENSYInput::list[3]->isr();
+	if ((maskin & 0x10) && (FTM0_C4SC & 0x80)) FlightControllerTGSTEENSYInput::list[4]->isr();
+	if ((maskin & 0x20) && (FTM0_C5SC & 0x80)) FlightControllerTGSTEENSYInput::list[5]->isr();
 	#if defined(KINETISK)
-	if ((maskin & 0x40) && (FTM0_C6SC & 0x80)) FlightControllerTGSInput::list[6]->isr();
-	if ((maskin & 0x80) && (FTM0_C7SC & 0x80)) FlightControllerTGSInput::list[7]->isr();
+	if ((maskin & 0x40) && (FTM0_C6SC & 0x80)) FlightControllerTGSTEENSYInput::list[6]->isr();
+	if ((maskin & 0x80) && (FTM0_C7SC & 0x80)) FlightControllerTGSTEENSYInput::list[7]->isr();
 	#endif
-	uint8_t maskout = FlightControllerTGSOutput::channelmask;
-	if ((maskout & 0x01) && (FTM0_C0SC & 0x80)) FlightControllerTGSOutput::list[0]->isr();
-	if ((maskout & 0x02) && (FTM0_C1SC & 0x80)) FlightControllerTGSOutput::list[1]->isr();
-	if ((maskout & 0x04) && (FTM0_C2SC & 0x80)) FlightControllerTGSOutput::list[2]->isr();
-	if ((maskout & 0x08) && (FTM0_C3SC & 0x80)) FlightControllerTGSOutput::list[3]->isr();
-	if ((maskout & 0x10) && (FTM0_C4SC & 0x80)) FlightControllerTGSOutput::list[4]->isr();
-	if ((maskout & 0x20) && (FTM0_C5SC & 0x80)) FlightControllerTGSOutput::list[5]->isr();
+	uint8_t maskout = FlightControllerTGSTEENSYOutput::channelmask;
+	if ((maskout & 0x01) && (FTM0_C0SC & 0x80)) FlightControllerTGSTEENSYOutput::list[0]->isr();
+	if ((maskout & 0x02) && (FTM0_C1SC & 0x80)) FlightControllerTGSTEENSYOutput::list[1]->isr();
+	if ((maskout & 0x04) && (FTM0_C2SC & 0x80)) FlightControllerTGSTEENSYOutput::list[2]->isr();
+	if ((maskout & 0x08) && (FTM0_C3SC & 0x80)) FlightControllerTGSTEENSYOutput::list[3]->isr();
+	if ((maskout & 0x10) && (FTM0_C4SC & 0x80)) FlightControllerTGSTEENSYOutput::list[4]->isr();
+	if ((maskout & 0x20) && (FTM0_C5SC & 0x80)) FlightControllerTGSTEENSYOutput::list[5]->isr();
 	#if defined(KINETISK)
-	if ((maskout & 0x40) && (FTM0_C6SC & 0x80)) FlightControllerTGSOutput::list[6]->isr();
-	if ((maskout & 0x80) && (FTM0_C7SC & 0x80)) FlightControllerTGSOutput::list[7]->isr();
+	if ((maskout & 0x40) && (FTM0_C6SC & 0x80)) FlightControllerTGSTEENSYOutput::list[6]->isr();
+	if ((maskout & 0x80) && (FTM0_C7SC & 0x80)) FlightControllerTGSTEENSYOutput::list[7]->isr();
 	#endif
-	FlightControllerTGSInput::overflow_inc = false;
+	FlightControllerTGSTEENSYInput::overflow_inc = false;
 }
 
 // some explanation regarding this C to C++ trickery can be found here:
 // http://forum.pjrc.com/threads/25278-Low-Power-with-Event-based-software-architecture-brainstorm?p=43496&viewfull=1#post43496
 
-uint16_t FlightControllerTGSInput::overflow_count = 0;
-bool FlightControllerTGSInput::overflow_inc = false;
-uint8_t FlightControllerTGSInput::channelmask = 0;
-FlightControllerTGSInput * FlightControllerTGSInput::list[8];
+uint16_t FlightControllerTGSTEENSYInput::overflow_count = 0;
+bool FlightControllerTGSTEENSYInput::overflow_inc = false;
+uint8_t FlightControllerTGSTEENSYInput::channelmask = 0;
+FlightControllerTGSTEENSYInput * FlightControllerTGSTEENSYInput::list[8];
 
-FlightControllerTGSInput::FlightControllerTGSInput(void)
+FlightControllerTGSTEENSYInput::FlightControllerTGSTEENSYInput(void)
 {
 	cscEdge = 0b01000100;
 }
 
-FlightControllerTGSInput::FlightControllerTGSInput(int polarity)
+FlightControllerTGSTEENSYInput::FlightControllerTGSTEENSYInput(int polarity)
 {
 	cscEdge = (polarity == FALLING) ? 0b01001000 : 0b01000100;
 }
 
 
-bool FlightControllerTGSInput::begin(uint8_t pin)
+bool FlightControllerTGSTEENSYInput::begin(uint8_t pin)
 {
 	uint32_t channel;
 	volatile void *reg;
@@ -334,7 +334,7 @@ bool FlightControllerTGSInput::begin(uint8_t pin)
 	return true;
 }
 
-void FlightControllerTGSInput::isr(void)
+void FlightControllerTGSTEENSYInput::isr(void)
 {
 	uint32_t val, count;
 
@@ -358,13 +358,13 @@ void FlightControllerTGSInput::isr(void)
 		}
 		write_index = 0;
 	} else {
-		if (write_index < FlightControllerTGS_MAXCHANNELS) {
+		if (write_index < FlightControllerTGSTEENSY_MAXCHANNELS) {
 			pulse_width[write_index++] = count;
 		}
 	}
 }
 
-int FlightControllerTGSInput::available(void)
+int FlightControllerTGSTEENSYInput::available(void)
 {
 	uint32_t total;
 	bool flag;
@@ -377,7 +377,7 @@ int FlightControllerTGSInput::available(void)
 	return -1;
 }
 
-float FlightControllerTGSInput::read(uint8_t channel)
+float FlightControllerTGSTEENSYInput::read(uint8_t channel)
 {
 	uint32_t total, index, value=0;
 

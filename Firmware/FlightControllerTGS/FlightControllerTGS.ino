@@ -1,8 +1,8 @@
 
 #include <Wire.h>
-#include <FlightControllerTGS.h>
+#include <FlightControllerTGSTEENSY.h>
 
-FlightControllerTGSInput ReceiverInput(RISING);
+FlightControllerTGSTEENSYInput ReceiverInput(RISING);
 
 float
   Pitch,

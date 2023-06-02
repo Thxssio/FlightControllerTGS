@@ -7,14 +7,14 @@
 
 #include <Arduino.h>
 
-#define FlightControllerTGS_MAXCHANNELS 16
+#define FlightControllerTGSTEENSY_MAXCHANNELS 16
 
-class FlightControllerTGSBase
+class FlightControllerTGSTEENSYBase
 {
 public:
 
 protected:
-	static FlightControllerTGSBase *list[10];
+	static FlightControllerTGSTEENSYBase *list[10];
 	virtual void isr() = 0;
 
 	typedef struct {
@@ -42,11 +42,11 @@ protected:
 };
 
 
-class FlightControllerTGSOutput : public FlightControllerTGSBase
+class FlightControllerTGSTEENSYOutput : public FlightControllerTGSTEENSYBase
 {
 public:
-	FlightControllerTGSOutput(void);
-	FlightControllerTGSOutput(int polarity);
+	FlightControllerTGSTEENSYOutput(void);
+	FlightControllerTGSTEENSYOutput(int polarity);
 	bool begin(uint8_t txPin); // txPin can be 6,9,10,11,12,13,14,15,18,19
 	bool begin(uint8_t txPin, uint32_t _framePin);
 	bool write(uint8_t channel, float microseconds);
@@ -60,8 +60,8 @@ private:
 			 current_channel, framePin = 255;
 	volatile uint32_t ticks;
 	
-	uint32_t pulse_width[FlightControllerTGS_MAXCHANNELS + 1];
-	uint32_t pulse_buffer[FlightControllerTGS_MAXCHANNELS + 1];
+	uint32_t pulse_width[FlightControllerTGSTEENSY_MAXCHANNELS + 1];
+	uint32_t pulse_buffer[FlightControllerTGSTEENSY_MAXCHANNELS + 1];
 
 	// member variables...
 	uint16_t idx_channel;
@@ -69,18 +69,18 @@ private:
 };
 
 
-class FlightControllerTGSInput : public FlightControllerTGSBase
+class FlightControllerTGSTEENSYInput : public FlightControllerTGSTEENSYBase
 {
 public:
-	FlightControllerTGSInput(void);
-	FlightControllerTGSInput(int polarity);
+	FlightControllerTGSTEENSYInput(void);
+	FlightControllerTGSTEENSYInput(int polarity);
 	bool begin(uint8_t rxPin); // rxPin can be 6,9,10,11,12,13,14,15,18,19
 	int available(void);
 	float read(uint8_t channel);
 	
 private:
-	uint32_t pulse_width[FlightControllerTGS_MAXCHANNELS+1];
-	uint32_t pulse_buffer[FlightControllerTGS_MAXCHANNELS+1];
+	uint32_t pulse_width[FlightControllerTGSTEENSY_MAXCHANNELS+1];
+	uint32_t pulse_buffer[FlightControllerTGSTEENSY_MAXCHANNELS+1];
 	uint32_t prev;
 	uint8_t write_index;
 	uint8_t total_channels;
