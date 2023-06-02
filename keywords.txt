@@ -1,0 +1,3 @@
+FlightControllerTGSOutput	KEYWORD2
+FlightControllerTGSInput	KEYWORD2
+FlightControllerTGS	KEYWORD2

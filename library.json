@@ -1,0 +1,26 @@
+{
+  "name": "FlightControllerTGS",
+  "keywords": "pulse, signal",
+  "description": "Múltiplos fluxos de sinais codificados PPM de entrada e saída de alta resolução",
+  "authors":
+  [
+    {
+      "name": "thxssio",
+      "email": "thxssio@gmail.com",
+      "url": "http://45.238.76.6:9000/",
+      "maintainer": true
+      }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Thxssio/FlightControllerTGS.git"
+  },
+  "version": "1.0",
+  "homepage": "https://github.com/Thxssio/FlightControllerTGS.git",
+  "frameworks": "arduino",
+  "platforms": "teensy",
+  "examples": [
+    "Firmware/*/*.ino"
+  ]
+}
