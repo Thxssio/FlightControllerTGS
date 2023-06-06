@@ -25,9 +25,8 @@ https://www.pjrc.com/teensy/package_teensy_index.json
 
 
 #
-
-
  **Enginner Schematic**
-<h1 align="center"><img src="assets/Enginner/Atmega.png" height="auto" width="90"></img></h1>
-
+<details>
+<h1 align="center"><img src="assets/Enginner/" height="auto" width="900"></img></h1>
+</details>
 
