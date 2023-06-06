@@ -24,3 +24,10 @@ https://www.pjrc.com/teensy/package_teensy_index.json
 - C/CPP/Python
 
 
+#
+
+
+ **Enginner Schematic**
+<h1 align="center"><img src="assets/Enginner/Atmega.png" height="auto" width="90"></img></h1>
+
+
