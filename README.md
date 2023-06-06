@@ -28,6 +28,6 @@ https://www.pjrc.com/teensy/package_teensy_index.json
  **Enginner Schematic:**
 <details>
 <h1 align="center"><img src="assets/Enginner/schematic.png" height="auto" width="900"></img></h1>
-<h1 align="center"><img src="assets/Enginner/PCBv1.png.png" height="auto" width="900"></img></h1>
+<h1 align="center"><img src="assets/Enginner/PCBv1.png" height="auto" width="900"></img></h1>
 </details>
 
