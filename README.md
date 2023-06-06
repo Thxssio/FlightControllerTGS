@@ -20,8 +20,7 @@ https://www.pjrc.com/teensy/package_teensy_index.json
 
 - MPU6050
 - BMP2080
-- Arduino board
-- Teensy board
+- TGS Board
 - C/CPP/Python
 
 
