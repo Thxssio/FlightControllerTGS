@@ -11,13 +11,6 @@
 </p>
 
 
-
-Install board:
-
-```
-https://www.pjrc.com/teensy/package_teensy_index.json
-```
-
 - MPU6050
 - BMP2080
 - TGS Board (Atmega v1) >> Update STM32
