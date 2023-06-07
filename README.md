@@ -22,5 +22,9 @@
 <details>
 <h1 align="center"><img src="assets/Enginner/schematic.png" height="auto" width="900"></img></h1>
 <h1 align="center"><img src="assets/Enginner/PCBv1.png" height="auto" width="900"></img></h1>
+
+<p>Update Schematics</p>
+
+
 </details>
 
