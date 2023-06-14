@@ -13,9 +13,9 @@
 
 - MPU6050
 - BMP2080
-- TGS Board (Atmega v1) >> Update STM32
+- TGS Board (Atmega v1) >> Update STM32 ( Em desenvolvimento)
 - C/CPP/Python
-
+- ROS and ROS2
 
 #
  **Enginner Schematic:**
