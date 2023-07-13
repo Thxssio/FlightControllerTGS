@@ -20,11 +20,11 @@
 #
  **Enginner Schematic:**
 <details>
-<h1 align="center"><img src="assets/Enginner/schematic.png" height="auto" width="900"></img></h1>
-<h1 align="center"><img src="assets/Enginner/PCBv1.png" height="auto" width="900"></img></h1>
+<h1 align="center"><img src="docs/assets/Enginner/schematic.png" height="auto" width="900"></img></h1>
+<h1 align="center"><img src="docs/assets/Enginner/PCBv1.png" height="auto" width="900"></img></h1>
 
 <p>Update Schematics</p>
-<h1 align="center"><img src="assets/Enginner/FlightV1.png" height="auto" width="900"></img></h1>
+<h1 align="center"><img src="docs/assets/Enginner/FlightV1.png" height="auto" width="900"></img></h1>
 
 </details>
 
