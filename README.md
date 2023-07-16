@@ -8,8 +8,14 @@
 
 <p align="center">
 <a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/thxssio/FlightControllerTGS.svg"></a>
+
 </p>
 
+
+
+#
+
+[![Deploy static content to Pages](https://github.com/Thxssio/FlightControllerTGS/actions/workflows/static.yml/badge.svg)](https://github.com/Thxssio/FlightControllerTGS/actions/workflows/static.yml)
 
 - MPU6050
 - BMP2080
